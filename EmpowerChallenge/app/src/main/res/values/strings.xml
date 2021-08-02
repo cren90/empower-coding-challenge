@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Empower Challenge</string>
+
+    <string name="rate_cards">Rate cards</string>
+    <string name="standard_card">Standard card</string>
+    <string name="suggested">Suggested</string>
+    <string name="user_set">User Set</string>
+    <string name="minimum_fare">Minimum Fare</string>
+    <string name="base_fare">Base Fare</string>
+    <string name="per_minute">Per Minute</string>
+    <string name="per_mile">Per Mile</string>
+    <string name="use_suggested_rate">Use suggested rate</string>
+    <string name="submit">Submit</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_main">Main2Activity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+</resources>
