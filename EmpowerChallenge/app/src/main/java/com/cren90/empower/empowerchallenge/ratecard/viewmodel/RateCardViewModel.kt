@@ -25,6 +25,8 @@ class RateCardViewModel @Inject constructor(private val rateCardModel: RateCardM
         rateCardModel.setIndex(index)
     }
 
+    val isSubmitEnabled = MutableLiveData<Boolean>(false)
+
     val isUsingSuggestedRates = MutableLiveData<Boolean>()
     val suggestedMinimumFare = MutableLiveData<String>()
     val suggestedMinimumFareStatus = MutableLiveData<RateStatus>(RateStatus.OK)
@@ -155,9 +157,12 @@ class RateCardViewModel @Inject constructor(private val rateCardModel: RateCardM
                 isUsingSuggestedRates.value = rateCard.useSuggestedRates
             }
         }
+
+
     }
 
     fun increaseRate(type: RateType) {
+        isSubmitEnabled.value = true
         when(type){
             RateType.MINIMUM    -> {
                 customMinimumFare.value?.let {
@@ -219,6 +224,7 @@ class RateCardViewModel @Inject constructor(private val rateCardModel: RateCardM
     }
 
     fun decreaseRate(type: RateType) {
+        isSubmitEnabled.value = true
         when(type){
             RateType.MINIMUM    -> {
                 customMinimumFare.value?.let {
@@ -280,11 +286,39 @@ class RateCardViewModel @Inject constructor(private val rateCardModel: RateCardM
     }
 
     fun suggestedClicked() {
+        isSubmitEnabled.value = true
         isUsingSuggestedRates.value = true
     }
 
     fun customClicked() {
+        isSubmitEnabled.value = true
         isUsingSuggestedRates.value = false
+    }
+
+    fun switchClicked() {
+        isSubmitEnabled.value = true
+    }
+
+    fun submitClicked() {
+        isSubmitEnabled.value = false
+
+        isUsingSuggestedRates.value?.let { isUsingSuggestedRatesSafe ->
+            customMinimumFare.value?.let { customMinimumFareSafe ->
+                customBaseFare.value?.let { customBaseFareSafe ->
+                    customPerMinuteFare.value?.let { customPerMinuteFareSafe ->
+                        customPerMileFare.value?.let { customPerMileFareSafe ->
+                            rateCardModel.updateValues(
+                                isUsingSuggestedRatesSafe,
+                                parseStringToNumber(customMinimumFareSafe),
+                                parseStringToNumber(customBaseFareSafe),
+                                parseStringToNumber(customPerMinuteFareSafe),
+                                parseStringToNumber(customPerMileFareSafe)
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun parseStringToNumber(toParse: String): Int {

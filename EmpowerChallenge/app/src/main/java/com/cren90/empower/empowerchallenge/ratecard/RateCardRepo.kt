@@ -47,4 +47,14 @@ class RateCardRepo @Inject constructor(private val retrofit: Retrofit) {
 
         return rateCards.filterNotNull()
     }
+
+    fun updateRates(
+        usingSuggestedRates: Boolean,
+        customMinimumFare: Int,
+        customBaseFare: Int,
+        customPerMinuteFare: Int,
+        customPerMileFare: Int
+    ) {
+
+    }
 }

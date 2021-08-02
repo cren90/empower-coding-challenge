@@ -31,4 +31,18 @@ class RateCardModel @Inject constructor(private val repo: RateCardRepo) {
     fun shouldWarn(customRate: Int, suggestedRate: Int): Boolean {
         return (customRate.toDouble()/suggestedRate.toDouble() > 1.15)
     }
+
+    fun updateValues(
+        isUsingSuggestedRates: Boolean,
+        customMinimumFare: Int,
+        customBaseFare: Int,
+        customPerMinuteFare: Int,
+        customPerMileFare: Int
+    ) {
+        repo.updateRates(isUsingSuggestedRates,
+                         customMinimumFare,
+                         customBaseFare,
+                         customPerMinuteFare,
+                         customPerMileFare)
+    }
 }
