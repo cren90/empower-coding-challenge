@@ -16,10 +16,6 @@ import java.text.NumberFormat
 import java.util.*
 import javax.inject.Inject
 
-const val INCREMENT_AMOUNT = 1 //1 cent
-const val MAX_RATE = 999 //$9.99
-const val MIN_RATE = 0 //$0.00
-
 @HiltViewModel
 class RateCardViewModel @Inject constructor(private val rateCardModel: RateCardModel) : ViewModel() {
 
@@ -130,12 +126,32 @@ class RateCardViewModel @Inject constructor(private val rateCardModel: RateCardM
             }.collect { rateCard ->
                 suggestedMinimumFare.value = beautifyNumber(rateCard.suggestedRates.minimum)
                 customMinimumFare.value = beautifyNumber(rateCard.customRates.minimum)
+                if(rateCardModel.shouldWarn(rateCard.customRates.minimum, rateCard.suggestedRates.minimum)) {
+                    customMinimumFareStatus.value = RateStatus.WARNING
+                } else {
+                    customMinimumFareStatus.value = RateStatus.OK
+                }
                 suggestedBaseFare.value = beautifyNumber(rateCard.suggestedRates.base)
                 customBaseFare.value = beautifyNumber(rateCard.customRates.base)
+                if(rateCardModel.shouldWarn(rateCard.customRates.base, rateCard.suggestedRates.base)) {
+                    customBaseFareStatus.value = RateStatus.WARNING
+                } else {
+                    customBaseFareStatus.value = RateStatus.OK
+                }
                 suggestedPerMinuteFare.value = beautifyNumber(rateCard.suggestedRates.perMinute)
                 customPerMinuteFare.value = beautifyNumber(rateCard.customRates.perMinute)
+                if(rateCardModel.shouldWarn(rateCard.customRates.perMinute, rateCard.suggestedRates.perMinute)) {
+                    customPerMinuteFareStatus.value = RateStatus.WARNING
+                } else {
+                    customPerMinuteFareStatus.value = RateStatus.OK
+                }
                 suggestedPerMileFare.value = beautifyNumber(rateCard.suggestedRates.perMile)
                 customPerMileFare.value = beautifyNumber(rateCard.customRates.perMile)
+                if(rateCardModel.shouldWarn(rateCard.customRates.perMile, rateCard.suggestedRates.perMile)) {
+                    customPerMileFareStatus.value = RateStatus.WARNING
+                } else {
+                    customPerMileFareStatus.value = RateStatus.OK
+                }
                 isUsingSuggestedRates.value = rateCard.useSuggestedRates
             }
         }
@@ -145,11 +161,11 @@ class RateCardViewModel @Inject constructor(private val rateCardModel: RateCardM
         when(type){
             RateType.MINIMUM    -> {
                 customMinimumFare.value?.let {
-                    val incremented = Math.min(parseStringToNumber(it) + INCREMENT_AMOUNT, MAX_RATE)
+                    val incremented = rateCardModel.incrementRate(parseStringToNumber(it))
                     customMinimumFare.value = beautifyNumber(incremented)
                     suggestedMinimumFare.value?.let { suggested ->
                         val parsedSuggested = parseStringToNumber(suggested)
-                        if(incremented.toDouble() / parsedSuggested.toDouble() > 1.15) {
+                        if(rateCardModel.shouldWarn(incremented, parsedSuggested)) {
                             customMinimumFareStatus.value = RateStatus.WARNING
                         } else {
                             customMinimumFareStatus.value = RateStatus.OK
@@ -159,11 +175,11 @@ class RateCardViewModel @Inject constructor(private val rateCardModel: RateCardM
             }
             RateType.BASE       -> {
                 customBaseFare.value?.let {
-                    val incremented = Math.min(parseStringToNumber(it) + INCREMENT_AMOUNT, MAX_RATE)
+                    val incremented = rateCardModel.incrementRate(parseStringToNumber(it))
                     customBaseFare.value = beautifyNumber(incremented)
                     suggestedBaseFare.value?.let { suggested ->
                         val parsedSuggested = parseStringToNumber(suggested)
-                        if(incremented.toDouble() / parsedSuggested.toDouble() > 1.15) {
+                        if(rateCardModel.shouldWarn(incremented, parsedSuggested)) {
                             customBaseFareStatus.value = RateStatus.WARNING
                         } else {
                             customBaseFareStatus.value = RateStatus.OK
@@ -173,11 +189,11 @@ class RateCardViewModel @Inject constructor(private val rateCardModel: RateCardM
             }
             RateType.PER_MINUTE -> {
                 customPerMinuteFare.value?.let {
-                    val incremented = Math.min(parseStringToNumber(it) + INCREMENT_AMOUNT, MAX_RATE)
+                    val incremented = rateCardModel.incrementRate(parseStringToNumber(it))
                     customPerMinuteFare.value = beautifyNumber(incremented)
                     suggestedPerMinuteFare.value?.let { suggested ->
                         val parsedSuggested = parseStringToNumber(suggested)
-                        if(incremented.toDouble() / parsedSuggested.toDouble() > 1.15) {
+                        if(rateCardModel.shouldWarn(incremented, parsedSuggested)) {
                             customPerMinuteFareStatus.value = RateStatus.WARNING
                         } else {
                             customPerMinuteFareStatus.value = RateStatus.OK
@@ -187,11 +203,11 @@ class RateCardViewModel @Inject constructor(private val rateCardModel: RateCardM
             }
             RateType.PER_MILE   -> {
                 customPerMileFare.value?.let {
-                    val incremented = Math.min(parseStringToNumber(it) + INCREMENT_AMOUNT, MAX_RATE)
+                    val incremented = rateCardModel.incrementRate(parseStringToNumber(it))
                     customPerMileFare.value = beautifyNumber(incremented)
                     suggestedPerMileFare.value?.let { suggested ->
                         val parsedSuggested = parseStringToNumber(suggested)
-                        if(incremented.toDouble() / parsedSuggested.toDouble() > 1.15) {
+                        if(rateCardModel.shouldWarn(incremented, parsedSuggested)) {
                             customPerMileFareStatus.value = RateStatus.WARNING
                         } else {
                             customPerMileFareStatus.value = RateStatus.OK
@@ -206,11 +222,11 @@ class RateCardViewModel @Inject constructor(private val rateCardModel: RateCardM
         when(type){
             RateType.MINIMUM    -> {
                 customMinimumFare.value?.let {
-                    val decremented = Math.max(parseStringToNumber(it) - INCREMENT_AMOUNT, MIN_RATE)
+                    val decremented = rateCardModel.decrementRate(parseStringToNumber(it))
                     customMinimumFare.value = beautifyNumber(decremented)
                     suggestedMinimumFare.value?.let { suggested ->
                         val parsedSuggested = parseStringToNumber(suggested)
-                        if(decremented.toDouble() / parsedSuggested.toDouble() > 1.15) {
+                        if(rateCardModel.shouldWarn(decremented, parsedSuggested)) {
                             customMinimumFareStatus.value = RateStatus.WARNING
                         } else {
                             customMinimumFareStatus.value = RateStatus.OK
@@ -220,11 +236,11 @@ class RateCardViewModel @Inject constructor(private val rateCardModel: RateCardM
             }
             RateType.BASE       -> {
                 customBaseFare.value?.let {
-                    val decremented = Math.max(parseStringToNumber(it) - INCREMENT_AMOUNT, MIN_RATE)
+                    val decremented = rateCardModel.decrementRate(parseStringToNumber(it))
                     customBaseFare.value = beautifyNumber(decremented)
                     suggestedBaseFare.value?.let { suggested ->
                         val parsedSuggested = parseStringToNumber(suggested)
-                        if(decremented.toDouble() / parsedSuggested.toDouble() > 1.15) {
+                        if(rateCardModel.shouldWarn(decremented, parsedSuggested)) {
                             customBaseFareStatus.value = RateStatus.WARNING
                         } else {
                             customBaseFareStatus.value = RateStatus.OK
@@ -234,11 +250,11 @@ class RateCardViewModel @Inject constructor(private val rateCardModel: RateCardM
             }
             RateType.PER_MINUTE -> {
                 customPerMinuteFare.value?.let {
-                    val decremented = Math.max(parseStringToNumber(it) - INCREMENT_AMOUNT, MIN_RATE)
+                    val decremented = rateCardModel.decrementRate(parseStringToNumber(it))
                     customPerMinuteFare.value = beautifyNumber(decremented)
                     suggestedPerMinuteFare.value?.let { suggested ->
                         val parsedSuggested = parseStringToNumber(suggested)
-                        if(decremented.toDouble() / parsedSuggested.toDouble() > 1.15) {
+                        if(rateCardModel.shouldWarn(decremented, parsedSuggested)) {
                             customPerMinuteFareStatus.value = RateStatus.WARNING
                         } else {
                             customPerMinuteFareStatus.value = RateStatus.OK
@@ -248,11 +264,11 @@ class RateCardViewModel @Inject constructor(private val rateCardModel: RateCardM
             }
             RateType.PER_MILE   -> {
                 customPerMileFare.value?.let {
-                    val decremented = Math.max(parseStringToNumber(it) - INCREMENT_AMOUNT, MIN_RATE)
+                    val decremented = rateCardModel.decrementRate(parseStringToNumber(it))
                     customPerMileFare.value = beautifyNumber(decremented)
                     suggestedPerMileFare.value?.let { suggested ->
                         val parsedSuggested = parseStringToNumber(suggested)
-                        if(decremented.toDouble() / parsedSuggested.toDouble() > 1.15) {
+                        if(rateCardModel.shouldWarn(decremented, parsedSuggested)) {
                             customPerMileFareStatus.value = RateStatus.WARNING
                         } else {
                             customPerMileFareStatus.value = RateStatus.OK
