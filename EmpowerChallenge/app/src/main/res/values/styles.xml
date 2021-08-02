@@ -96,4 +96,10 @@
         <item name="tabTextColor">@color/white</item>
         <item name="android:textAllCaps">true</item>
     </style>
+
+    <style name="WarningText">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="android:textSize">@dimen/body_small</item>
+        <item name="android:textColor">@color/red_500</item>
+    </style>
 </resources>

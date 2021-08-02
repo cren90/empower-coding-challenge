@@ -2,7 +2,7 @@
  * Created by Chris Renfrow on 8/1/21.
  */
 
-package com.cren90.empower.empowerchallenge.ui.ratecard
+package com.cren90.empower.empowerchallenge.ratecard
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject

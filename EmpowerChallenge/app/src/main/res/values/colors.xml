@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00000000</color>
 
+    <color name="red_500">#af1010</color>
     <color name="blue_500">#1a60b2</color>
     <color name="blue_500_transparent">#4D1A60B2</color>
     <color name="trolley_grey">#818181</color>

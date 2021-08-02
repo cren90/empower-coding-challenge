@@ -2,9 +2,9 @@
  * Created by Chris Renfrow on 8/1/21.
  */
 
-package com.cren90.empower.empowerchallenge.ui.ratecard
+package com.cren90.empower.empowerchallenge.ratecard
 
-import com.cren90.empower.empowerchallenge.ui.ratecard.dto.RateCards
+import com.cren90.empower.empowerchallenge.ratecard.dto.RateCards
 import com.haroldadmin.cnradapter.NetworkResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -1,4 +1,4 @@
-package com.cren90.empower.empowerchallenge.ui.ratecard
+package com.cren90.empower.empowerchallenge.ratecard.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.cren90.empower.empowerchallenge.databinding.FragmentMainBinding
+import com.cren90.empower.empowerchallenge.ratecard.viewmodel.RateCardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
