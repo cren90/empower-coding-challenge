@@ -1,10 +1,11 @@
-package com.cren90.empower.empowerchallenge.ui.main
+package com.cren90.empower.empowerchallenge.ui
 
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.cren90.empower.empowerchallenge.R
+import com.cren90.empower.empowerchallenge.ui.ratecard.StandardCardFragment
 
 private val TAB_TITLES = arrayOf(
     R.string.standard_card

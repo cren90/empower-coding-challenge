@@ -1,0 +1,22 @@
+/**
+ * Created by Chris Renfrow on 8/1/21.
+ */
+
+package com.cren90.empower.empowerchallenge
+
+import android.app.Application
+import com.cren90.empower.empowerchallenge.BuildConfig
+import dagger.hilt.android.HiltAndroidApp
+import timber.log.Timber
+
+@HiltAndroidApp
+class MainApplication: Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+
+        if(BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+    }
+}
