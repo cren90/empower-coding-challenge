@@ -1,12 +1,13 @@
-package com.cren90.empower.empowerchallenge
+package com.cren90.empower.empowerchallenge.ratecard.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.cren90.empower.empowerchallenge.databinding.ActivityMainBinding
-import com.cren90.empower.empowerchallenge.ui.main.TabPagerAdapter
 import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

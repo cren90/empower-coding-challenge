@@ -25,4 +25,5 @@
     <string name="tab_text_2">Tab 2</string>
     <string name="minus">-</string>
     <string name="plus">+</string>
+    <string name="rate_warning">Setting your rate(s) this high may result in fewer ride requests</string>
 </resources>

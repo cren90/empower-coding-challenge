@@ -1,13 +1,16 @@
-package com.cren90.empower.empowerchallenge.ui.main
+package com.cren90.empower.empowerchallenge.ratecard.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.cren90.empower.empowerchallenge.databinding.FragmentMainBinding
+import com.cren90.empower.empowerchallenge.ratecard.viewmodel.RateCardViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StandardCardFragment : Fragment() {
 
     companion object {
@@ -24,16 +27,8 @@ class StandardCardFragment : Fragment() {
         }
     }
 
-    private lateinit var pageViewModel: RateCardViewModel
+    private val viewModel: RateCardViewModel by viewModels()
     private var binding: FragmentMainBinding? = null
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        pageViewModel = ViewModelProvider(this).get(RateCardViewModel::class.java).apply {
-            setIndex(arguments?.getInt(TAB_INDEX) ?: 1)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +36,11 @@ class StandardCardFragment : Fragment() {
     ): View? {
 
         binding = FragmentMainBinding.inflate(inflater, container, false)
+
+        viewModel.setIndex(arguments?.getInt(TAB_INDEX) ?: 1)
+
+        binding?.lifecycleOwner = viewLifecycleOwner
+        binding?.vm = viewModel
 
         return binding?.root
     }

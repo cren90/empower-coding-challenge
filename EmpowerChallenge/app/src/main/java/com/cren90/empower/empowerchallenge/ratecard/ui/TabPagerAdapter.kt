@@ -1,4 +1,4 @@
-package com.cren90.empower.empowerchallenge.ui.main
+package com.cren90.empower.empowerchallenge.ratecard.ui
 
 import android.content.Context
 import androidx.fragment.app.Fragment
