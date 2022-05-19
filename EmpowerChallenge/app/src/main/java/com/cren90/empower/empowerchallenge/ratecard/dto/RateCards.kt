@@ -2,7 +2,7 @@
  * Created by Chris Renfrow on 8/1/21.
  */
 
-package com.cren90.empower.empowerchallenge.ui.ratecard.dto
+package com.cren90.empower.empowerchallenge.ratecard.dto
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

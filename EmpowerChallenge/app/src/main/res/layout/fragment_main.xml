@@ -4,9 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.cren90.empower.empowerchallenge.ratecard.viewmodel.RateType"/>
+        <import type="com.cren90.empower.empowerchallenge.ratecard.viewmodel.RateStatus"/>
+        <import type="com.cren90.empower.empowerchallenge.R"/>
         <variable
             name="vm"
-            type="com.cren90.empower.empowerchallenge.ui.ratecard.RateCardViewModel" />
+            type="com.cren90.empower.empowerchallenge.ratecard.viewmodel.RateCardViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,6 +52,8 @@
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="@dimen/margin_large_vertical"
                     android:text="@string/suggested"
+                    android:textColor="@{ vm.suggestedColor }"
+                    android:onClick="@{ () -> vm.suggestedClicked() }"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/card_label" />
 
@@ -60,6 +65,8 @@
                     android:layout_marginStart="@dimen/margin_large_horizontal"
                     android:layout_marginTop="@dimen/margin_large_vertical"
                     android:text="@string/user_set"
+                    android:textColor="@{ vm.customColor }"
+                    android:onClick="@{ () -> vm.customClicked() }"
                     app:layout_constraintStart_toEndOf="@id/suggested_label"
                     app:layout_constraintTop_toBottomOf="@id/card_label" />
 
@@ -102,6 +109,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{ vm.customMinimumFare }"
                     tools:text="$8.75"
+                    android:textColor="@{ context.getColor(vm.customMinimumFareColor) }"
                     app:layout_constraintBottom_toBottomOf="@id/min_fare_plus_button"
                     app:layout_constraintStart_toStartOf="@id/user_set_label"
                     app:layout_constraintTop_toTopOf="@id/min_fare_plus_button" />
@@ -112,6 +120,7 @@
                     android:layout_width="@dimen/increment_button_width"
                     android:layout_height="wrap_content"
                     android:text="@string/minus"
+                    android:onClick="@{ () -> vm.decreaseRate(RateType.MINIMUM)}"
                     app:layout_constraintBottom_toBottomOf="@id/min_fare_plus_button"
                     app:layout_constraintEnd_toStartOf="@id/min_fare_plus_button"
                     app:layout_constraintTop_toTopOf="@id/min_fare_plus_button" />
@@ -125,6 +134,7 @@
                     android:layout_marginEnd="@dimen/activity_horizontal_margin"
                     android:layout_marginBottom="@dimen/margin_medium_vertical"
                     android:text="@string/plus"
+                    android:onClick="@{ () -> vm.increaseRate(RateType.MINIMUM)}"
                     app:layout_constraintBottom_toTopOf="@id/min_base_divider"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/header_divider" />
@@ -169,6 +179,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{ vm.customBaseFare }"
                     tools:text="$1.40"
+                    android:textColor="@{ context.getColor(vm.customBaseFareColor)}"
                     app:layout_constraintBottom_toBottomOf="@id/base_fare_plus_button"
                     app:layout_constraintStart_toStartOf="@id/user_set_label"
                     app:layout_constraintTop_toTopOf="@id/base_fare_plus_button" />
@@ -179,6 +190,7 @@
                     android:layout_width="@dimen/increment_button_width"
                     android:layout_height="wrap_content"
                     android:text="@string/minus"
+                    android:onClick="@{ () -> vm.decreaseRate(RateType.BASE)}"
                     app:layout_constraintBottom_toBottomOf="@id/base_fare_plus_button"
                     app:layout_constraintEnd_toStartOf="@id/base_fare_plus_button"
                     app:layout_constraintTop_toTopOf="@id/base_fare_plus_button" />
@@ -192,6 +204,7 @@
                     android:layout_marginEnd="@dimen/activity_horizontal_margin"
                     android:layout_marginBottom="@dimen/margin_medium_vertical"
                     android:text="@string/plus"
+                    android:onClick="@{ () -> vm.increaseRate(RateType.BASE)}"
                     app:layout_constraintBottom_toTopOf="@id/base_minute_divider"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/min_base_divider" />
@@ -236,6 +249,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{ vm.customPerMinuteFare }"
                     tools:text="$1.25"
+                    android:textColor="@{ context.getColor(vm.customPerMinuteFareColor) }"
                     app:layout_constraintBottom_toBottomOf="@id/minute_fare_plus_button"
                     app:layout_constraintStart_toStartOf="@id/user_set_label"
                     app:layout_constraintTop_toTopOf="@id/minute_fare_plus_button" />
@@ -246,6 +260,7 @@
                     android:layout_width="@dimen/increment_button_width"
                     android:layout_height="wrap_content"
                     android:text="@string/minus"
+                    android:onClick="@{ () -> vm.decreaseRate(RateType.PER_MINUTE)}"
                     app:layout_constraintBottom_toBottomOf="@id/minute_fare_plus_button"
                     app:layout_constraintEnd_toStartOf="@id/minute_fare_plus_button"
                     app:layout_constraintTop_toTopOf="@id/minute_fare_plus_button" />
@@ -259,6 +274,7 @@
                     android:layout_marginEnd="@dimen/activity_horizontal_margin"
                     android:layout_marginBottom="@dimen/margin_medium_vertical"
                     android:text="@string/plus"
+                    android:onClick="@{ () -> vm.increaseRate(RateType.PER_MINUTE)}"
                     app:layout_constraintBottom_toTopOf="@id/minute_mile_divider"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/base_minute_divider" />
@@ -293,6 +309,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{ vm.customPerMileFare }"
                     tools:text="$0.35"
+                    android:textColor="@{ context.getColor(vm.customPerMileFareColor) }"
                     app:layout_constraintBottom_toBottomOf="@id/mile_fare_plus_button"
                     app:layout_constraintStart_toStartOf="@id/user_set_label"
                     app:layout_constraintTop_toTopOf="@id/mile_fare_plus_button" />
@@ -303,6 +320,7 @@
                     android:layout_width="@dimen/increment_button_width"
                     android:layout_height="wrap_content"
                     android:text="@string/minus"
+                    android:onClick="@{ () -> vm.decreaseRate(RateType.PER_MILE)}"
                     app:layout_constraintBottom_toBottomOf="@id/mile_fare_plus_button"
                     app:layout_constraintEnd_toStartOf="@id/mile_fare_plus_button"
                     app:layout_constraintTop_toTopOf="@id/mile_fare_plus_button" />
@@ -316,6 +334,7 @@
                     android:layout_marginEnd="@dimen/activity_horizontal_margin"
                     android:layout_marginBottom="@dimen/margin_medium_vertical"
                     android:text="@string/plus"
+                    android:onClick="@{ () -> vm.increaseRate(RateType.PER_MILE)}"
                     app:layout_constraintBottom_toTopOf="@id/mile_bottom_divider"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/minute_mile_divider" />
@@ -349,13 +368,31 @@
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="@dimen/margin_small_vertical"
                     android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                    android:checked="@{ vm.isUsingSuggestedRates, default=false }"
+                    android:checked="@={ vm.isUsingSuggestedRates, default=false }"
                     tools:checked="true"
                     android:text="@string/use_suggested_rate"
                     android:textAppearance="@style/BodyLarge"
+                    android:onClick="@{ () -> vm.switchClicked() }"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/mile_bottom_divider" />
+
+                <TextView
+                    android:id="@+id/warning_message"
+                    style="@style/WarningText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/margin_small_vertical"
+                    android:layout_marginBottom="@dimen/margin_medium_vertical"
+                    android:text="@{ (vm.warningMessage == 0) ? null : context.getString(vm.warningMessage) }"
+                    tools:text="@string/rate_warning"
+                    app:layout_constraintTop_toBottomOf="@id/suggested_rate_switch"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:flow_verticalBias="0"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
@@ -371,6 +408,9 @@
             android:paddingTop="@dimen/margin_medium_vertical"
             android:paddingBottom="@dimen/margin_medium_vertical"
             android:text="@string/submit"
+            android:enabled="@{ vm.isSubmitEnabled }"
+            tools:enabled="false"
+            android:onClick="@{ () -> vm.submitClicked() }"
             android:textAppearance="@style/ButtonText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

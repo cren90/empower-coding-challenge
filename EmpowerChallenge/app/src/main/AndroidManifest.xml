@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EmpowerChallenge">
         <activity
-            android:name=".ui.MainActivity"
+            android:name="com.cren90.empower.empowerchallenge.ratecard.ui.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.EmpowerChallenge.NoActionBar">
             <intent-filter>
